@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Diffie-Hellman Calculator</title>
+</head>
+<script src="js/jquery-2.1.1.min.js"></script>
+<script src="js/BigInteger.min.js"></script>
+<body>
+	<label for="txtQ">q: </label>
+	<input type="text" id="txtQ"></input>
+	<br>
+	<label for="txtA">a: </label>
+	<input type="text" id="txtA"></input>
+	<br>
+	<label for="txtPrivateKeyA">Private key A: </label>
+	<input type="text" id="txtPrivateKeyA"></input>
+	<br>
+	<p>Public key A: <span id="txtPublicKeyA"></span></p>
+	<button id="btnCalculatePrivateKey">Calculate private key</button>
+	<hr>
+	<label for="txtPrivateKeyB">Private key B: </label>
+	<input type="text" id="txtPrivateKeyB"></input>
+	<br>
+	<p>Shared key: <span id="txtSharedKey"></span></p>
+	<button id="btnCalculateSharedKey">Calculate shared key</button>
+
+	<script>
+		var q;
+		var a;
+		var privateKeyA;
+		var publicKeyA;
+		var privateKeyB;
+		var sharedKey;
+
+		$("#btnCalculatePrivateKey").click(function()
+		{
+			q = bigInt($("#txtQ").val());
+			console.log("q: " + q);
+
+			a = bigInt($("#txtA").val());
+			console.log("a: " + a);
+
+			privateKeyA = bigInt($("#txtPrivateKeyA").val());
+			console.log("Private key A: " + privateKeyA);
+
+			publicKeyA = a.modPow(privateKeyA, q);
+			console.log(publicKeyA);
+			
+			$("#txtPublicKeyA").html(publicKeyA.value);
+		});
+
+		$("#btnCalculateSharedKey").click(function()
+		{
+			privateKeyB = $("#txtPrivateKeyB").val();
+			sharedKey = bigInt(publicKeyA).modPow(privateKeyB, q);
+
+			$("#txtSharedKey").html(sharedKey.value);
+		});
+	</script>
+</body>
+</html>
